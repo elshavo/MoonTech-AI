@@ -29,7 +29,7 @@ def get_ai_response(messages):
     return response
 
 def chat():
-    st.title("CREACIÓN DE TAREAS - LLAMA3.1")
+    st.title("PRUEBA DE CREACION DE TAREAS CON LLAMA3.1")
     st.write("Bienvenido al chat de llama3.1, A continuación escriba la información solicitada para generar las tareas.")
     
     if "messages" not in st.session_state:
@@ -121,39 +121,28 @@ def chat():
                 st.write(f"**Costo:** {task['Cost']}")
                 st.markdown("---")  # Línea divisoria entre tareas
 
-    # Botón para generar más tareas
-    if st.button("Generar Más Tareas"):
-        # Instrucción clara para generar más tareas
-        new_message = {
-            "role": "user",
-            "content": "Con base en la conversación anterior y el contexto, genera más tareas y responde solo con el JSON sin comentarios adicionales."
-        }
-        st.session_state["messages"].append(new_message)  # Añadir nuevo mensaje al historial
-        
-        with st.spinner("Generando más tareas..."):
-            ai_response = get_ai_response(st.session_state["messages"])
-            st.session_state["messages"].append({"role": "assistant", "content": ai_response})
+    # Sección para agregar más tareas
+    with st.form(key="additional_tasks_form", clear_on_submit=True):
+        st.subheader("Agregar Más Tareas")
+        task_name = st.text_input("Nombre de la Tarea:")
+        task_description = st.text_area("Descripción de la Tarea:")
+        team_area = st.text_input("Área del Equipo Responsable:")
+        time_estimated = st.text_input("Tiempo Estimado:")
+        cost_estimated = st.text_input("Costo Estimado:")
 
-            # Procesar la respuesta para extraer las nuevas tareas
-            try:
-                ai_tasks = json.loads(ai_response).get("Tasks", [])
-                # Agregar nuevas tareas a la lista existente
-                st.session_state["tasks"].extend(ai_tasks)  
-            except json.JSONDecodeError:
-                st.error("Error al procesar la respuesta de la IA.")
+        # Crear botón de envío
+        add_task_button = st.form_submit_button(label="Agregar Tarea")
 
-        # Mostrar las tarjetas de las tareas después de agregar nuevas
-        if st.session_state["tasks"]:
-            st.subheader("Tareas Generadas Actualizadas")
-            for task in st.session_state["tasks"]:
-                with st.container():  # Usar container en lugar de card
-                    st.subheader(f"Tarea: {task['TaskName']}")
-                    st.write(f"**ID de Tarea:** {task['TaskID']}")
-                    st.write(f"**Descripción:** {task['TaskDescription']}")
-                    st.write(f"**Área del Equipo:** {task['TeamArea']}")
-                    st.write(f"**Tiempo Estimado:** {task['Time']}")
-                    st.write(f"**Costo:** {task['Cost']}")
-                    st.markdown("---")  # Línea divisoria entre tareas
+        if add_task_button:
+            new_task = {
+                "TaskID": f"TASK-{len(st.session_state['tasks']) + 1}",  # Generar un ID único
+                "TaskName": task_name,
+                "TaskDescription": task_description,
+                "TeamArea": team_area,
+                "Time": time_estimated,
+                "Cost": cost_estimated,
+            }
+            st.session_state["tasks"].append(new_task)  # Agregar la nueva tarea a la lista existente
 
 if __name__ == "__main__":
     chat()

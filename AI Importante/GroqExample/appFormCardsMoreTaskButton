@@ -29,8 +29,8 @@ def get_ai_response(messages):
     return response
 
 def chat():
-    st.title("CREACIÓN DE TAREAS - LLAMA3.1")
-    st.write("Bienvenido al chat de llama3.1, A continuación escriba la información solicitada para generar las tareas.")
+    st.title("Chat con llama3.1 con Groq")
+    st.write("Bienvenido al chat de llama3.1 con Groq, escribe exit para terminar la conversación.")
     
     if "messages" not in st.session_state:
         st.session_state["messages"] = []

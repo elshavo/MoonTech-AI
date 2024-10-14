@@ -29,8 +29,8 @@ def get_ai_response(messages):
     return response
 
 def chat():
-    st.title("CREACIÓN DE TAREAS - LLAMA3.1")
-    st.write("Bienvenido al chat de llama3.1, A continuación escriba la información solicitada para generar las tareas.")
+    st.title("Chat con llama3.1 con Groq")
+    st.write("Bienvenido al chat de llama3.1 con Groq, escribe exit para terminar la conversación.")
     
     if "messages" not in st.session_state:
         st.session_state["messages"] = []
@@ -108,6 +108,11 @@ def chat():
                 ai_tasks = json.loads(ai_response).get("Tasks", [])
                 st.session_state["tasks"] = ai_tasks  # Almacenar tareas en el estado
 
+    # Mostrar mensajes en el chat
+    for message in st.session_state["messages"]:
+        role = "Tu" if message["role"] == "user" else "Bot"
+        st.write(f"**{role}**: {message['content']}")
+
     # Mostrar tarjetas de tareas si hay respuesta de AI
     if st.session_state["tasks"]:
         st.subheader("Tareas Generadas")
@@ -121,39 +126,6 @@ def chat():
                 st.write(f"**Costo:** {task['Cost']}")
                 st.markdown("---")  # Línea divisoria entre tareas
 
-    # Botón para generar más tareas
-    if st.button("Generar Más Tareas"):
-        # Instrucción clara para generar más tareas
-        new_message = {
-            "role": "user",
-            "content": "Con base en la conversación anterior y el contexto, genera más tareas y responde solo con el JSON sin comentarios adicionales."
-        }
-        st.session_state["messages"].append(new_message)  # Añadir nuevo mensaje al historial
-        
-        with st.spinner("Generando más tareas..."):
-            ai_response = get_ai_response(st.session_state["messages"])
-            st.session_state["messages"].append({"role": "assistant", "content": ai_response})
-
-            # Procesar la respuesta para extraer las nuevas tareas
-            try:
-                ai_tasks = json.loads(ai_response).get("Tasks", [])
-                # Agregar nuevas tareas a la lista existente
-                st.session_state["tasks"].extend(ai_tasks)  
-            except json.JSONDecodeError:
-                st.error("Error al procesar la respuesta de la IA.")
-
-        # Mostrar las tarjetas de las tareas después de agregar nuevas
-        if st.session_state["tasks"]:
-            st.subheader("Tareas Generadas Actualizadas")
-            for task in st.session_state["tasks"]:
-                with st.container():  # Usar container en lugar de card
-                    st.subheader(f"Tarea: {task['TaskName']}")
-                    st.write(f"**ID de Tarea:** {task['TaskID']}")
-                    st.write(f"**Descripción:** {task['TaskDescription']}")
-                    st.write(f"**Área del Equipo:** {task['TeamArea']}")
-                    st.write(f"**Tiempo Estimado:** {task['Time']}")
-                    st.write(f"**Costo:** {task['Cost']}")
-                    st.markdown("---")  # Línea divisoria entre tareas
 
 if __name__ == "__main__":
     chat()
