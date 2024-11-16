@@ -1,0 +1,19 @@
+{
+    "Requirements": [
+        {
+            "RequirementID": "REQ-001",
+            "RequirementDescription": "requirement_1",
+            "Owner": "Owner_1"
+        },
+        {
+            "RequirementID": "REQ-002",
+            "RequirementDescription": "requirement_2",
+            "Owner": "Owner_2"
+        },
+        {
+            "RequirementID": "REQ-003",
+            "RequirementDescription": "requirement_3",
+            "Owner": "Owner_3"
+        }
+    ]
+}

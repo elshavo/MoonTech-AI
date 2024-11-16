@@ -1,0 +1,44 @@
+{
+    "Company": {
+        "CompanyName": "company_name",
+        "CompanyDescription": "company_description",
+        "CompanyDetails": {
+            "Industry": "industry",
+            "Location": "location",
+            "Size": "size"
+        }
+    },
+    "Project": {
+        "ProjectName": "project_name",
+        "ProjectDescription": "project_description",
+        "ProjectDetails": {
+            "Budget": "budget",
+            "ProjectManager": "project_manager"
+        }
+    },
+    "Requirements": [
+        {
+            "RequirementID": "REQ-001",
+            "RequirementDescription": "requirement_1",
+            "Owner": "Owner_1"
+        },
+
+    ],
+    "Transcript": "transcript",
+
+    "Tasks": [
+        {
+            "TaskID": "T-001",
+            "TaskDescription": "task_1"
+        },
+        {
+            "TaskID": "T-002",
+            "TaskDescription": "task_2"
+        },
+        {
+            "TaskID": "T-003",
+            "TaskDescription": "task_3"
+        }
+    ]
+
+}
