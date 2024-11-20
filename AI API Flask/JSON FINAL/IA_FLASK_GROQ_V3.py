@@ -119,7 +119,7 @@ def get_ai_requirement():
             }
         ],
         model="llama-3.1-70b-versatile",
-        temperature=0.1,
+        temperature=0.5,
         max_tokens=1024
     )
 
